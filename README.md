@@ -10,8 +10,8 @@ Welcome to CS 110. I look forward to working with you this semester. This is you
 
 ## Student Info - MUST BE COMPLETED
 
-Preferred Name:
+Preferred Name:Christian
 
-Discord username:
+Discord username:Christian Petragnani
 
-REPL url:
+REPL url:https://replit.com/join/gguaswarvr-christianpetrag
