@@ -18,12 +18,12 @@ For each one below you should have a basic description of a program idea, a coup
 
 ## Project Idea 1
 
-< add your idea here >
+< Working calculator using the mouse and not text input >
 
 ## Project Idea 2
 
-< add your idea here >
+< An user input stroyline >
 
 ## Project Idea 3
 
-< add your idea here >
+< mario kart type game with a driving focus >
