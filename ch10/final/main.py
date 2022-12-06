@@ -18,17 +18,22 @@ pygame.display.set_caption('Tic Tac Toe')
 class Runner:
   def __init__(self, board):
     self.board = board
+    # creates font used in tie screen
     self.font = pygame.font.SysFont('Arial', singleblock_size // 8, True)
+
+    # putting images from markers folder into variables
     self.bg_image = self.imagefitting(path = 'markers/TTTboard.png', res = [screen_size]*2)
     self.ximg = self.imagefitting(path = 'markers/X.png', res = [singleblock_size] * 2)
     self.oimg = self.imagefitting(path = 'markers/O.png', res = [singleblock_size] * 2)
     self.xwins_img = self.imagefitting(path = 'markers/Xwins.png', res = (640,640))
     self.owins_img = self.imagefitting(path = 'markers/Owins.png', res = (640,640))
 
+    # Represents empty cells in an array
     self.grid = [[notfilled, notfilled, notfilled],
                 [notfilled, notfilled, notfilled],
                 [notfilled, notfilled, notfilled]]
     self.playerturn = randint(0,1)
+    # All possible wins in tic tac toe
     self.possible_win_aaray = [[(0,0), (0,1), (0,2)],
                          [(1,0), (1,1), (1,2)],
                          [(2,0), (2,1), (2,2)],
@@ -53,7 +58,8 @@ class Runner:
       for x, obj in enumerate(row):
         if obj != notfilled:
           self.board.screen.blit(self.ximg if obj else self.oimg, vec2(x,y) * singleblock_size)
-          
+
+  # Checks if the cell clicked is already used and if not fills the box and adds 1 to the number of turns played
   def run_game(self):
     cur_block = vec2(pygame.mouse.get_pos()) // singleblock_size
     column, row = map(int, cur_block)
@@ -63,21 +69,25 @@ class Runner:
       self.playerturn = not self.playerturn
       self.num_turns += 1
       self.checkwinner()
-      
+
+  # draws the tic tac toe board
   def draw_board(self):
     self.board.screen.blit(self.bg_image, (0,0))
     self.draw_objects()
     self.display_winner()
 
+  # Displays whose turn it is in the top left corner
   def caption_turn(self):
     pygame.display.set_caption(f'Player "{"OX"[self.playerturn]}" turn')
 
+  # Checks possible win array for a winner
   def checkwinner(self):
     for line in self.possible_win_aaray:
       sum_line = sum([self.grid[i][j] for i, j in line])
       if sum_line in {0,3}:
         self.winner = 'XO'[sum_line == 0]
 
+  # Displays the winner with images from the markers folder and also displays tie
   def display_winner(self):
     if self.winner == 'X':
       self.board.screen.blit(self.xwins_img, (0,0))
@@ -90,7 +100,7 @@ class Runner:
       self.board.screen.blit(statement1, (100, 100))
       self.board.screen.blit(statement2, (100, 135))
       
-      
+  # Runs game   
   def run(self):
     self.caption_turn()
     self.draw_board()
@@ -103,8 +113,9 @@ class Board:
     self.screen = pygame.display.set_mode([screen_size]*2)
     self.clock = pygame.time.Clock()
     self.runner = Runner(self)
+
+  # Checks to see if user has exited the application and checks for the user restarting the game
   def check_events(self):
-    # Checks if user exited applicaion
     for i in pygame.event.get():
       if i.type == pygame.QUIT:
         pygame.quit()
@@ -113,12 +124,13 @@ class Board:
         if i.key == pygame.K_SPACE:
           self.restart()
 
+  # if spacebar is pressed this function restarts the game
   def restart(self):
     self.runner = Runner(self)
-    
+
+  # Used to check events while game is going on
   def play(self):
     playing = True
-    # while playing used to check events
     while playing:
       self.runner.run()
       self.check_events()
